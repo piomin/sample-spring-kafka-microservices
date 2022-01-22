@@ -1,0 +1,5 @@
+# Project exclude paths
+/base-domain/target/
+/order-service/target/
+/payment-service/target/
+/stock-service/target/

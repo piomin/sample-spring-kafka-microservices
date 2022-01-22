@@ -8,6 +8,7 @@ import org.apache.kafka.streams.state.KeyValueBytesStoreSupplier;
 import org.apache.kafka.streams.state.Stores;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import pl.piomin.base.domain.Order;
 import pl.piomin.order.controller.OrderController;
+import pl.piomin.order.service.OrderGeneratorService;
+import pl.piomin.order.service.OrderManageService;
 
 import java.time.Duration;
 import java.util.Random;
@@ -59,21 +62,8 @@ public class OrderApp {
                 .build();
     }
 
-    private static Random RAND = new Random();
-    private AtomicLong id = new AtomicLong();
-
-//    @Bean
-//    public ApplicationRunner runner(KafkaTemplate<Long, Order> template) {
-//        return args -> {
-//            ExecutorService executorService = Executors.newFixedThreadPool(5);
-//            executorService.submit(() -> {
-//                for (int i = 0; i < 1000; i++) {
-//                    Order o = new Order(id.incrementAndGet(), RAND.nextLong(100), RAND.nextLong(10), "NEW");
-//                    template.send("orders", o.getId(), o);
-//                }
-//            });
-//        };
-//    }
+    @Autowired
+    OrderManageService orderManageService;
 
     @Bean
     public KStream<Long, Order> stream(StreamsBuilder builder) {
@@ -83,7 +73,7 @@ public class OrderApp {
 
         stream.join(
                         builder.stream("stock-orders"),
-                        (o1, o2) -> new Order(o1.getId(), o1.getCustomerId(), o1.getProductId(), "CONFIRMED"),
+                        orderManageService::confirm,
                         JoinWindows.of(Duration.ofSeconds(10)),
                         StreamJoined.with(Serdes.Long(), orderSerde, orderSerde))
                 .peek((k, o) -> LOG.info("Output: {}", o))
