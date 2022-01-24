@@ -10,3 +10,6 @@ There are three microservices:
 `payment-service` - it performs local transaction on the customer account basing on the `Order` price
 `stock-service` - it performs local transaction on the store basing on number of products in the `Order`
 
+Here's the diagram with our architecture:
+
+![image](https://raw.githubusercontent.com/piomin/sample-spring-kafka-microservices/master/arch.png)
