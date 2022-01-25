@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.piomin.base.domain.Order;
 import pl.piomin.payment.domain.Customer;
 import pl.piomin.payment.repository.CustomerRepository;
@@ -21,6 +22,7 @@ public class OrderManageService {
         this.template = template;
     }
 
+    @Transactional
     public void reserve(Order order) {
         Customer customer = repository.findById(order.getCustomerId()).orElseThrow();
         LOG.info("Found: {}", customer);
