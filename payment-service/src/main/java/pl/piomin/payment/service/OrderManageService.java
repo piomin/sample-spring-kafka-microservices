@@ -48,8 +48,8 @@ public class OrderManageService {
 
         if (r == 0)
             customer.setName("Customer1");
-        if (r == 1 || r == 2)
-            repository.save(customer);
+
+        repository.save(customer);
         template.send("payment-orders", order.getId(), order);
         LOG.info("Sent: {}", order);
         if (r == 2)
