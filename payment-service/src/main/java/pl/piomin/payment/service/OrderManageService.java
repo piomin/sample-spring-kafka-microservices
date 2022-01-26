@@ -7,11 +7,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.piomin.base.domain.Order;
 import pl.piomin.payment.domain.Customer;
+import pl.piomin.payment.exception.ForceRollbackException;
 import pl.piomin.payment.repository.CustomerRepository;
+
+import java.util.Random;
 
 @Service
 public class OrderManageService {
 
+    private static final Random RAND = new Random();
     private static final String SOURCE = "payment";
     private static final Logger LOG = LoggerFactory.getLogger(OrderManageService.class);
     private CustomerRepository repository;
@@ -22,7 +26,7 @@ public class OrderManageService {
         this.template = template;
     }
 
-    @Transactional
+    @Transactional("transactionManager")
     public void reserve(Order order) {
         Customer customer = repository.findById(order.getCustomerId()).orElseThrow();
         LOG.info("Found: {}", customer);
@@ -34,9 +38,22 @@ public class OrderManageService {
             order.setStatus("REJECTED");
         }
         order.setSource(SOURCE);
-        repository.save(customer);
+
+        int r = RAND.nextInt(3);
+        switch (r) {
+            case 0 -> LOG.info("Scenario: DB error");
+            case 1 -> LOG.info("Scenario: Success");
+            case 2 -> LOG.info("Scenario: Exception");
+        }
+
+        if (r == 0)
+            customer.setName("Customer1");
+        if (r == 1 || r == 2)
+            repository.save(customer);
         template.send("payment-orders", order.getId(), order);
         LOG.info("Sent: {}", order);
+        if (r == 2)
+            throw new ForceRollbackException();
     }
 
     public void confirm(Order order) {

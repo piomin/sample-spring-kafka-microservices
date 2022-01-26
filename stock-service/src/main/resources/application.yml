@@ -1,6 +1,6 @@
 spring.application.name: stock
 spring.kafka:
-  bootstrap-servers: 127.0.0.1:56820
+  bootstrap-servers: 127.0.0.1:9092
   consumer:
     key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
     value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer

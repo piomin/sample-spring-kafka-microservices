@@ -1,6 +1,6 @@
 spring.application.name: orders
 spring.kafka:
-  bootstrap-servers: 127.0.0.1:56820
+  bootstrap-servers: 127.0.0.1:9092
   producer:
     key-serializer: org.apache.kafka.common.serialization.LongSerializer
     value-serializer: org.springframework.kafka.support.serializer.JsonSerializer

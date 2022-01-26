@@ -31,6 +31,7 @@ public class PaymentApp {
     @KafkaListener(id = "orders", topics = "orders", groupId = "payment")
     public void onEvent(Order o) {
         LOG.info("Received: {}" , o);
+        if (o.getStatus() == null) return;
         if (o.getStatus().equals("NEW"))
             orderManageService.reserve(o);
         else
@@ -49,4 +50,5 @@ public class PaymentApp {
             repository.save(c);
         }
     }
+
 }
