@@ -1,7 +1,5 @@
 package pl.piomin.order.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import pl.piomin.base.domain.Order;
 
@@ -9,6 +7,8 @@ import pl.piomin.base.domain.Order;
 public class OrderManageService {
 
     public Order confirm(Order orderPayment, Order orderStock) {
+        if (orderPayment == null || orderStock == null)
+            return null;
         Order o = new Order(orderPayment.getId(),
                 orderPayment.getCustomerId(),
                 orderPayment.getProductId(),

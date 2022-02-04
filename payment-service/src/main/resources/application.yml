@@ -1,6 +1,11 @@
 spring.application.name: customer
 spring.kafka:
-  bootstrap-servers: 127.0.0.1:9092
+  bootstrap-servers: 127.0.0.1:53652
+#  bootstrap-servers: humble-rat-6834-eu1-kafka.upstash.io:9092
+#  properties:
+#    security.protocol: SASL_SSL
+#    sasl.mechanism: SCRAM-SHA-256
+#    sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="aHVtYmxlLXJhdC02ODM0JJfK7rXhMissPVIH8Fk0TkUQUmGWTxoTxhgvM_cZVek" password="Sjb1tk4-hJ_A5xxr_jz8k-jKtnYpfPhC94Jd-J9krZ5-Dde5cNhXtDwtOpaKrDyT6Vy3Jw==";
   consumer:
     key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
     value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
@@ -9,12 +14,20 @@ spring.kafka:
   producer:
     key-serializer: org.apache.kafka.common.serialization.LongSerializer
     value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-    transaction-id-prefix: tx-
-    acks: all
+#    transaction-id-prefix: tx-
+#    acks: all
+#    properties:
+#      enable.idempotence: true
+#      transactional.id: tran-id-1
+  streams:
     properties:
-      enable.idempotence: true
-      transactional.id: tran-id-1
+      commit.interval.ms: 0
+      default.key.serde: org.apache.kafka.common.serialization.Serdes$LongSerde
+      default.value.serde: org.springframework.kafka.support.serializer.JsonSerde
+      spring.json.trusted.packages: "*"
 
 spring.output.ansi.enabled: ALWAYS
+
+#logging.level.net.ttddyy.dsproxy.listener: debug
 
 logging.pattern.console: "%clr(%d{HH:mm:ss.SSS}){blue} %clr(---){faint} %clr([%15.15t]){yellow} %clr(:){red} %clr(%m){faint}%n"

@@ -1,6 +1,7 @@
 package pl.piomin.payment.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 
 @Entity
 public class Customer {
@@ -10,6 +11,7 @@ public class Customer {
     private Long id;
     @Column(unique = true)
     private String name;
+    @Min(0)
     private int amountAvailable;
     private int amountReserved;
 

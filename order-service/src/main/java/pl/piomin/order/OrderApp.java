@@ -41,24 +41,21 @@ public class OrderApp {
     @Bean
     public NewTopic orders() {
         return TopicBuilder.name("orders")
-                .partitions(3)
-//                .compact()
+                .partitions(5)
                 .build();
     }
 
     @Bean
     public NewTopic paymentTopic() {
         return TopicBuilder.name("payment-orders")
-                .partitions(3)
-//                .compact()
+                .partitions(5)
                 .build();
     }
 
     @Bean
     public NewTopic stockTopic() {
         return TopicBuilder.name("stock-orders")
-                .partitions(3)
-//                .compact()
+                .partitions(5)
                 .build();
     }
 
@@ -79,6 +76,7 @@ public class OrderApp {
                 .peek((k, o) -> LOG.info("Output: {}", o))
                 .to("orders");
 
+        
         return stream;
     }
 

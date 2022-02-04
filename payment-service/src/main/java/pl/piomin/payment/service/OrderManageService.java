@@ -30,30 +30,30 @@ public class OrderManageService {
     public void reserve(Order order) {
         Customer customer = repository.findById(order.getCustomerId()).orElseThrow();
         LOG.info("Found: {}", customer);
-        if (order.getPrice() < customer.getAmountAvailable()) {
+//        if (order.getPrice() < customer.getAmountAvailable()) {
             order.setStatus("ACCEPT");
             customer.setAmountReserved(customer.getAmountReserved() + order.getPrice());
             customer.setAmountAvailable(customer.getAmountAvailable() - order.getPrice());
-        } else {
-            order.setStatus("REJECTED");
-        }
+//        } else {
+//            order.setStatus("REJECTED");
+//        }
         order.setSource(SOURCE);
 
-        int r = RAND.nextInt(3);
-        switch (r) {
-            case 0 -> LOG.info("Scenario: DB error");
-            case 1 -> LOG.info("Scenario: Success");
-            case 2 -> LOG.info("Scenario: Exception");
-        }
-
-        if (r == 0)
-            customer.setName("Customer1");
+//        int r = RAND.nextInt(3);
+//        switch (r) {
+//            case 0 -> LOG.info("Scenario: DB error");
+//            case 1 -> LOG.info("Scenario: Success");
+//            case 2 -> LOG.info("Scenario: Exception");
+//        }
+//
+//        if (r == 0)
+//            customer.setName("Customer1");
 
         repository.save(customer);
         template.send("payment-orders", order.getId(), order);
         LOG.info("Sent: {}", order);
-        if (r == 2)
-            throw new ForceRollbackException();
+//        if (r == 2)
+//            throw new ForceRollbackException();
     }
 
     public void confirm(Order order) {
