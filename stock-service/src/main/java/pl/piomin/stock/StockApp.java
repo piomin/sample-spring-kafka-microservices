@@ -16,7 +16,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.serializer.JsonSerde;
 import pl.piomin.base.domain.Order;
 import pl.piomin.stock.domain.Reservation;
-import pl.piomin.stock.service.OrderManageService;
 
 import java.util.Random;
 
@@ -47,15 +46,17 @@ public class StockApp {
 
         Aggregator<Long, Order, Reservation> aggrs = (id, order, rsv) -> {
             switch (order.getStatus()) {
-                case "CONFIRMED" -> rsv.setItemsReserved(rsv.getItemsReserved() - order.getPrice());
+                case "CONFIRMED" -> rsv.setItemsReserved(rsv.getItemsReserved() - order.getProductCount());
                 case "ROLLBACK" -> {
-                    rsv.setItemsAvailable(rsv.getItemsAvailable() + order.getPrice());
-                    rsv.setItemsReserved(rsv.getItemsReserved() - order.getPrice());
+                    if (order.getSource().equals("STOCK")) {
+                        rsv.setItemsAvailable(rsv.getItemsAvailable() + order.getProductCount());
+                        rsv.setItemsReserved(rsv.getItemsReserved() - order.getProductCount());
+                    }
                 }
                 case "NEW" -> {
                     if (order.getPrice() <= rsv.getItemsAvailable()) {
-                        rsv.setItemsAvailable(rsv.getItemsAvailable() - order.getPrice());
-                        rsv.setItemsReserved(rsv.getItemsReserved() + order.getPrice());
+                        rsv.setItemsAvailable(rsv.getItemsAvailable() - order.getProductCount());
+                        rsv.setItemsReserved(rsv.getItemsReserved() + order.getProductCount());
                         order.setStatus("ACCEPT");
                     } else {
                         order.setStatus("REJECT");

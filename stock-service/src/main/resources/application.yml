@@ -5,7 +5,7 @@ spring.kafka:
 #  properties:
 #    security.protocol: SASL_SSL
 #    sasl.mechanism: SCRAM-SHA-256
-#    sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="aHVtYmxlLXJhdC02ODM0JJfK7rXhMissPVIH8Fk0TkUQUmGWTxoTxhgvM_cZVek" password="Sjb1tk4-hJ_A5xxr_jz8k-jKtnYpfPhC94Jd-J9krZ5-Dde5cNhXtDwtOpaKrDyT6Vy3Jw==";
+#    sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="${USERNAME}" password="${PASSWORD}";
   consumer:
     key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
     value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer

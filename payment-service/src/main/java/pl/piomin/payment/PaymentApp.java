@@ -79,8 +79,10 @@ public class PaymentApp {
             switch (order.getStatus()) {
                 case "CONFIRMED" -> rsv.setAmountReserved(rsv.getAmountReserved() - order.getPrice());
                 case "ROLLBACK" -> {
-                    rsv.setAmountAvailable(rsv.getAmountAvailable() + order.getPrice());
-                    rsv.setAmountReserved(rsv.getAmountReserved() - order.getPrice());
+                    if (order.getSource().equals("PAYMENT")) {
+                        rsv.setAmountAvailable(rsv.getAmountAvailable() + order.getPrice());
+                        rsv.setAmountReserved(rsv.getAmountReserved() - order.getPrice());
+                    }
                 }
                 case "NEW" -> {
                     if (order.getPrice() <= rsv.getAmountAvailable()) {

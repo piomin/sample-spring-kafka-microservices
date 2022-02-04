@@ -7,8 +7,6 @@ import pl.piomin.base.domain.Order;
 public class OrderManageService {
 
     public Order confirm(Order orderPayment, Order orderStock) {
-        if (orderPayment == null || orderStock == null)
-            return null;
         Order o = new Order(orderPayment.getId(),
                 orderPayment.getCustomerId(),
                 orderPayment.getProductId(),
