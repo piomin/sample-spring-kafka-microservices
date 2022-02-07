@@ -41,36 +41,40 @@ public class StockApp {
                 .stream("orders", Consumed.with(Serdes.Long(), orderSerde))
                 .peek((k, order) -> LOG.info("New: {}", order));
 
-        KeyValueBytesStoreSupplier customerOrderStoreSupplier =
+        KeyValueBytesStoreSupplier stockOrderStoreSupplier =
                 Stores.persistentKeyValueStore("stock-orders");
 
-        Aggregator<Long, Order, Reservation> aggrs = (id, order, rsv) -> {
+        Aggregator<Long, Order, Reservation> aggrSrv = (id, order, rsv) -> {
             switch (order.getStatus()) {
                 case "CONFIRMED" -> rsv.setItemsReserved(rsv.getItemsReserved() - order.getProductCount());
                 case "ROLLBACK" -> {
-                    if (order.getSource().equals("STOCK")) {
+                    if (!order.getSource().equals("STOCK")) {
                         rsv.setItemsAvailable(rsv.getItemsAvailable() + order.getProductCount());
                         rsv.setItemsReserved(rsv.getItemsReserved() - order.getProductCount());
                     }
                 }
                 case "NEW" -> {
-                    if (order.getPrice() <= rsv.getItemsAvailable()) {
+                    if (order.getProductCount() <= rsv.getItemsAvailable()) {
                         rsv.setItemsAvailable(rsv.getItemsAvailable() - order.getProductCount());
                         rsv.setItemsReserved(rsv.getItemsReserved() + order.getProductCount());
                         order.setStatus("ACCEPT");
                     } else {
                         order.setStatus("REJECT");
                     }
-                    template.send("stock-orders", order.getId(), order);
+                    template.send("stock-orders", order.getId(), order)
+                            .addCallback(result -> LOG.info("Sent: {}",
+                               result != null ? result.getProducerRecord().value() : null),
+                                         ex -> {});
                 }
             }
             LOG.info("{}", rsv);
             return rsv;
         };
+
         stream.selectKey((k, v) -> v.getProductId())
                 .groupByKey(Grouped.with(Serdes.Long(), orderSerde))
-                .aggregate(() -> new Reservation(random.nextInt(100)), aggrs,
-                        Materialized.<Long, Reservation>as(customerOrderStoreSupplier)
+                .aggregate(() -> new Reservation(random.nextInt(100)), aggrSrv,
+                        Materialized.<Long, Reservation>as(stockOrderStoreSupplier)
                                 .withKeySerde(Serdes.Long())
                                 .withValueSerde(rsvSerde))
                 .toStream()

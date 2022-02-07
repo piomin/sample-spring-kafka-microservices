@@ -1,11 +1,10 @@
 spring.application.name: stock
 spring.kafka:
-  bootstrap-servers: 127.0.0.1:53652
-#  bootstrap-servers: humble-rat-6834-eu1-kafka.upstash.io:9092
-#  properties:
-#    security.protocol: SASL_SSL
-#    sasl.mechanism: SCRAM-SHA-256
-#    sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="${USERNAME}" password="${PASSWORD}";
+  bootstrap-servers: equal-starling-6959-eu1-kafka.upstash.io:9092
+  properties:
+    security.protocol: SASL_SSL
+    sasl.mechanism: SCRAM-SHA-256
+    sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="${KAFKA_USER}" password="${KAFKA_PASS}";
   consumer:
     key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
     value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
@@ -17,4 +16,5 @@ spring.kafka:
 
 spring.output.ansi.enabled: ALWAYS
 
+logging.level.org.apache.kafka.streams.processor.internals.StreamThread: DEBUG
 logging.pattern.console: "%clr(%d{HH:mm:ss.SSS}){blue} %clr(---){faint} %clr([%15.15t]){yellow} %clr(:){red} %clr(%m){faint}%n"

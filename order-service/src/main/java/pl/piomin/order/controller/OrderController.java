@@ -36,11 +36,6 @@ public class OrderController {
 
     @PostMapping
     public Order create(@RequestBody Order order) {
-//        for (int i = 0; i < 5; i++) {
-//            order.setId(id.incrementAndGet());
-//            template.send("orders", order.getId(), order);
-//            LOG.info("Sent: {}", order);
-//        }
         order.setId(id.incrementAndGet());
         template.send("orders", order.getId(), order);
         LOG.info("Sent: {}", order);

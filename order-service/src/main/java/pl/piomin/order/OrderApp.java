@@ -41,21 +41,21 @@ public class OrderApp {
     @Bean
     public NewTopic orders() {
         return TopicBuilder.name("orders")
-                .partitions(5)
+                .partitions(3)
                 .build();
     }
 
     @Bean
     public NewTopic paymentTopic() {
         return TopicBuilder.name("payment-orders")
-                .partitions(5)
+                .partitions(3)
                 .build();
     }
 
     @Bean
     public NewTopic stockTopic() {
         return TopicBuilder.name("stock-orders")
-                .partitions(5)
+                .partitions(3)
                 .build();
     }
 

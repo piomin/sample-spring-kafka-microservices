@@ -1,11 +1,10 @@
 spring.application.name: orders
 spring.kafka:
-  bootstrap-servers: 127.0.0.1:53652
-#  bootstrap-servers: humble-rat-6834-eu1-kafka.upstash.io:9092
-#  properties:
-#    security.protocol: SASL_SSL
-#    sasl.mechanism: SCRAM-SHA-256
-#    sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="${USERNAME}" password="${PASSWORD};
+  bootstrap-servers: equal-starling-6959-eu1-kafka.upstash.io:9092
+  properties:
+    security.protocol: SASL_SSL
+    sasl.mechanism: SCRAM-SHA-256
+    sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="${KAFKA_USER}" password="${KAFKA_PASS}";
   producer:
     key-serializer: org.apache.kafka.common.serialization.LongSerializer
     value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
