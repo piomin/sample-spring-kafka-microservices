@@ -16,5 +16,4 @@ spring.kafka:
 
 spring.output.ansi.enabled: ALWAYS
 
-logging.level.org.apache.kafka.streams.processor.internals.StreamThread: DEBUG
 logging.pattern.console: "%clr(%d{HH:mm:ss.SSS}){blue} %clr(---){faint} %clr([%15.15t]){yellow} %clr(:){red} %clr(%m){faint}%n"
