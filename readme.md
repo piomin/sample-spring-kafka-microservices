@@ -2,7 +2,8 @@
 
 ## Articles
 This repository is used as the example for the following articles:
-1. [Distributed Transactions in Microservices with Kafka Streams and Spring Boot]() - how to implement distributed transaction based on the SAGA pattern with Spring Boot and Kafka Streams
+1. [Distributed Transactions in Microservices with Kafka Streams and Spring Boot](https://piotrminkowski.com/2022/01/24/distributed-transactions-in-microservices-with-kafka-streams-and-spring-boot/) - how to implement distributed transaction based on the SAGA pattern with Spring Boot and Kafka Streams
+2. [Deep Dive into Saga Transactions with Kafka Streams and Spring Boot](https://piotrminkowski.com/2022/02/07/deep-dive-into-saga-transactions-with-kafka-streams-and-spring-boot/) - how to implement distributed transaction based on the SAGA pattern with Spring Boot and fully Kafka Streams `KStream` and `KTable`
 
 ## Description
 There are three microservices: \
