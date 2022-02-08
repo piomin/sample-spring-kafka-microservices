@@ -70,7 +70,8 @@ public class PaymentApp {
             }
             case "NEW" -> {
                 if (order.getPrice() <= rsv.getAmountAvailable()) {
-                    rsv.setAmountAvailable(rsv.getAmountAvailable() - order.getPrice());
+                    rsv.setAmountAvailable(rsv.getAmountAvailable()
+                            - order.getPrice());
                     rsv.setAmountReserved(rsv.getAmountReserved() + order.getPrice());
                     order.setStatus("ACCEPT");
                 } else {
