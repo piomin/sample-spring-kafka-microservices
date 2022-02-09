@@ -29,7 +29,7 @@ public class OrderManageService {
             customer.setAmountReserved(customer.getAmountReserved() + order.getPrice());
             customer.setAmountAvailable(customer.getAmountAvailable() - order.getPrice());
         } else {
-            order.setStatus("REJECTED");
+            order.setStatus("REJECT");
         }
         order.setSource(SOURCE);
         repository.save(customer);
