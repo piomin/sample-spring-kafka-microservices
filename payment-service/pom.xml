@@ -44,6 +44,11 @@
             <artifactId>base-domain</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>net.datafaker</groupId>
+            <artifactId>datafaker</artifactId>
+            <version>1.1.0</version>
+        </dependency>
     </dependencies>
 
     <build>
