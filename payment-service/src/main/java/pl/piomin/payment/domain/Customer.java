@@ -1,17 +1,9 @@
 package pl.piomin.payment.domain;
 
-import javax.persistence.*;
-import javax.validation.constraints.Min;
-
-@Entity
 public class Customer {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
     private String name;
-    @Min(0)
     private int amountAvailable;
     private int amountReserved;
 
