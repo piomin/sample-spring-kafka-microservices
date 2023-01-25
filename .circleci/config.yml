@@ -23,5 +23,3 @@ workflows:
     jobs:
       - maven/test:
           executor: j17
-      - build:
-          context: SonarCloud
