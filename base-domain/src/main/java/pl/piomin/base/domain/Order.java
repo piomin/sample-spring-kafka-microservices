@@ -25,6 +25,7 @@ public class Order {
         this.productId = productId;
         this.productCount = productCount;
         this.price = price;
+        this.status = "NEW";
     }
 
     public Long getId() {
