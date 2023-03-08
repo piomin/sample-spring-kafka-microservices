@@ -1,5 +1,6 @@
 package pl.piomin.stock;
 
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import pl.piomin.stock.domain.Product;
 import pl.piomin.stock.repository.ProductRepository;
 import pl.piomin.stock.service.OrderManageService;
 
-import javax.annotation.PostConstruct;
 import java.util.Random;
 
 @SpringBootApplication
