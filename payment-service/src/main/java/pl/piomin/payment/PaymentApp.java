@@ -1,5 +1,6 @@
 package pl.piomin.payment;
 
+import jakarta.annotation.PostConstruct;
 import net.datafaker.Faker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,6 @@ import pl.piomin.payment.domain.Customer;
 import pl.piomin.payment.repository.CustomerRepository;
 import pl.piomin.payment.service.OrderManageService;
 
-import javax.annotation.PostConstruct;
 import java.util.Random;
 
 @SpringBootApplication

@@ -1,5 +1,12 @@
 # Microservices with Spring Boot and Kafka Demo Project [![Twitter](https://img.shields.io/twitter/follow/piotr_minkowski.svg?style=social&logo=twitter&label=Follow%20Me)](https://twitter.com/piotr_minkowski)
 
+[![CircleCI](https://circleci.com/gh/piomin/sample-spring-kafka-microservices.svg?style=svg)](https://circleci.com/gh/piomin/sample-spring-kafka-microservices)
+
+[![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/dashboard?id=piomin_sample-spring-kafka-microservices)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=piomin_sample-spring-kafka-microservices&metric=bugs)](https://sonarcloud.io/dashboard?id=piomin_sample-spring-kafka-microservices)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=piomin_sample-spring-kafka-microservices&metric=coverage)](https://sonarcloud.io/dashboard?id=piomin_sample-spring-kafka-microservices)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=piomin_sample-spring-kafka-microservices&metric=ncloc)](https://sonarcloud.io/dashboard?id=piomin_sample-spring-kafka-microservices)
+
 ## Articles
 This repository is used as the example for the following articles:
 1. [Distributed Transactions in Microservices with Kafka Streams and Spring Boot](https://piotrminkowski.com/2022/01/24/distributed-transactions-in-microservices-with-kafka-streams-and-spring-boot/) - how to implement distributed transaction based on the SAGA pattern with Spring Boot and Kafka Streams
