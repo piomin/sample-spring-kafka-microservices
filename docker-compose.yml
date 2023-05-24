@@ -1,0 +1,29 @@
+version: "3.8"
+services:
+  broker:
+    image: moeenz/docker-kafka-kraft:latest
+    restart: always
+    ports:
+      - "9092:9092"
+    environment:
+      - KRAFT_CONTAINER_HOST_NAME=broker
+  order-service:
+    image: sample-spring-kafka-microservices/order-service:1.0-SNAPSHOT
+    ports:
+      - "8080"
+    links:
+      - broker
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+  payment-service:
+    image: sample-spring-kafka-microservices/payment-service:1.0-SNAPSHOT
+    links:
+      - broker
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+  stock-service:
+    image: sample-spring-kafka-microservices/stock-service:1.0-SNAPSHOT
+    links:
+      - broker
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
