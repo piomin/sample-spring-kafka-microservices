@@ -31,9 +31,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
                partitions = 1,
                bootstrapServersProperty = "spring.kafka.bootstrap-servers")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class PaymentAppTests {
+public class PaymentComponentTests {
 
-    private static final Logger LOG = LoggerFactory.getLogger(PaymentAppTests.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PaymentComponentTests.class);
 
     static Customer customer;
 

@@ -30,9 +30,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
         partitions = 1,
         bootstrapServersProperty = "spring.kafka.bootstrap-servers")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class StockAppTests {
+public class StockComponentTests {
 
-    private static final Logger LOG = LoggerFactory.getLogger(StockAppTests.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StockComponentTests.class);
 
     static Product product;
 
