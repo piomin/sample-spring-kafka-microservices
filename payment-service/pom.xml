@@ -84,6 +84,16 @@
 
     <profiles>
         <profile>
+            <id>compose</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-docker-compose</artifactId>
+                    <optional>true</optional>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
             <id>build-image</id>
             <build>
                 <plugins>
