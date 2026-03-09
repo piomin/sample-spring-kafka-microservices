@@ -1,16 +1,16 @@
 package pl.piomin.order;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.resttestclient.TestRestTemplate;
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.test.context.EmbeddedKafka;
-import org.springframework.kafka.test.utils.KafkaTestUtils;
 import pl.piomin.base.domain.Order;
+import tools.jackson.databind.ObjectMapper;
 
 import java.time.Duration;
 
@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @EmbeddedKafka(topics = {"orders"},
         partitions = 1,
         bootstrapServersProperty = "spring.kafka.bootstrap-servers")
+@AutoConfigureTestRestTemplate
 public class OrderControllerTests {
 
     @Autowired
