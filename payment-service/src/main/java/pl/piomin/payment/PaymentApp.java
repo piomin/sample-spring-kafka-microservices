@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.annotation.KafkaListener;
 import pl.piomin.base.domain.Order;
 import pl.piomin.payment.domain.Customer;
@@ -17,7 +16,6 @@ import pl.piomin.payment.service.OrderManageService;
 import java.util.Random;
 
 @SpringBootApplication
-@EnableKafka
 public class PaymentApp {
 
     private static final Logger LOG = LoggerFactory.getLogger(PaymentApp.class);
