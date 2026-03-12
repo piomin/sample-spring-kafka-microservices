@@ -12,7 +12,7 @@ public class KafkaContainerDevMode {
     @Bean
     @ServiceConnection
     public KafkaContainer kafka() {
-        return new KafkaContainer(DockerImageName.parse("apache/kafka-native:3.8.0"))
+        return new KafkaContainer(DockerImageName.parse("apache/kafka-native:4.1.1"))
                 .withKraft()
                 .withReuse(true);
     }
