@@ -12,31 +12,49 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:9092
     networks:
       - kafka-net
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-broker-api-versions --bootstrap-server broker:9092"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   order-service:
-    image: sample-spring-kafka-microservices/order-service:1.0-SNAPSHOT
+    build:
+      context: ./order-service
+      dockerfile: Dockerfile
     ports:
-      - "8080"
-    links:
-      - broker
+      - "8080:8080"
+    depends_on:
+      broker:
+        condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: docker
     networks:
       - kafka-net
 
   payment-service:
-    image: sample-spring-kafka-microservices/payment-service:1.0-SNAPSHOT
-    links:
-      - broker
+    build:
+      context: ./payment-service
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    depends_on:
+      broker:
+        condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: docker
     networks:
       - kafka-net
 
   stock-service:
-    image: sample-spring-kafka-microservices/stock-service:1.0-SNAPSHOT
-    links:
-      - broker
+    build:
+      context: ./stock-service
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      broker:
+        condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: docker
     networks:

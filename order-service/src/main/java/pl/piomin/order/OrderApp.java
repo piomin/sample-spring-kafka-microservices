@@ -1,7 +1,10 @@
 package pl.piomin.order;
 
 import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.kafka.common.serialization.Deserializer;
+import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.common.serialization.Serializer;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.*;
 import org.apache.kafka.streams.state.KeyValueBytesStoreSupplier;
@@ -14,22 +17,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.annotation.EnableKafkaStreams;
 import org.springframework.kafka.config.TopicBuilder;
-import org.springframework.kafka.support.serializer.JsonSerde;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import pl.piomin.base.domain.Order;
-import pl.piomin.order.controller.OrderController;
-import pl.piomin.order.service.OrderGeneratorService;
 import pl.piomin.order.service.OrderManageService;
 
 import java.time.Duration;
-import java.util.Random;
 import java.util.concurrent.Executor;
-import java.util.concurrent.atomic.AtomicLong;
 
 @SpringBootApplication
 @EnableKafkaStreams
 @EnableAsync
+@SuppressWarnings("removal")
 public class OrderApp {
 
     private static final Logger LOG = LoggerFactory.getLogger(OrderApp.class);
@@ -66,27 +65,33 @@ public class OrderApp {
     OrderManageService orderManageService;
 
     @Bean
+    @SuppressWarnings("removal")
     public KStream<Long, Order> stream(StreamsBuilder builder) {
-        JsonSerde<Order> orderSerde = new JsonSerde<>(Order.class);
+        Serializer<Order> serializer = new org.springframework.kafka.support.serializer.JsonSerializer<>();
+        Deserializer<Order> deserializer = new org.springframework.kafka.support.serializer.JsonDeserializer<>(Order.class);
+        Serde<Order> orderSerde = Serdes.serdeFrom(serializer, deserializer);
         KStream<Long, Order> stream = builder
                 .stream("payment-orders", Consumed.with(Serdes.Long(), orderSerde));
 
         stream.join(
-                        builder.stream("stock-orders"),
+                        builder.stream("stock-orders", Consumed.with(Serdes.Long(), orderSerde)),
                         orderManageService::confirm,
-                        JoinWindows.of(Duration.ofSeconds(10)),
+                        JoinWindows.ofTimeDifferenceWithNoGrace(Duration.ofSeconds(10)),
                         StreamJoined.with(Serdes.Long(), orderSerde, orderSerde))
-                .peek((k, o) -> LOG.info("Output: {}", o))
-                .to("orders");
+                .peek((_, o) -> LOG.info("Output: {}", o))
+                .to("orders", Produced.with(Serdes.Long(), orderSerde));
 
         return stream;
     }
 
     @Bean
+    @SuppressWarnings("removal")
     public KTable<Long, Order> table(StreamsBuilder builder) {
         KeyValueBytesStoreSupplier store =
                 Stores.persistentKeyValueStore("orders");
-        JsonSerde<Order> orderSerde = new JsonSerde<>(Order.class);
+        Serializer<Order> serializer = new org.springframework.kafka.support.serializer.JsonSerializer<>();
+        Deserializer<Order> deserializer = new org.springframework.kafka.support.serializer.JsonDeserializer<>(Order.class);
+        Serde<Order> orderSerde = Serdes.serdeFrom(serializer, deserializer);
         KStream<Long, Order> stream = builder
                 .stream("orders", Consumed.with(Serdes.Long(), orderSerde));
         return stream.toTable(Materialized.<Long, Order>as(store)

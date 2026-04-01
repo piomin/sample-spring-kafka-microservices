@@ -10,7 +10,6 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import pl.piomin.base.domain.Order;
-import tools.jackson.databind.ObjectMapper;
 
 import java.time.Duration;
 
@@ -18,16 +17,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@EmbeddedKafka(topics = {"orders"},
-        partitions = 1,
+@EmbeddedKafka(topics = "orders",
         bootstrapServersProperty = "spring.kafka.bootstrap-servers")
 @AutoConfigureTestRestTemplate
 public class OrderControllerTests {
 
     @Autowired
     TestRestTemplate restTemplate;
-    @Autowired
-    ObjectMapper mapper;
     @Autowired
     private KafkaTemplate<Long, Order> template;
     @Autowired
