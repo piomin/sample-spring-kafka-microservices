@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y maven && \
     mvn clean package -DskipTests && \
     apt-get remove -y maven && rm -rf /var/lib/apt/lists/*
 
-FROM eclipse-temurin:25-jre
+FROM eclipse-temurin:25-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8082
