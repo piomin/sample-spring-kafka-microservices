@@ -13,3 +13,8 @@ spring.kafka:
 spring.output.ansi.enabled: ALWAYS
 
 logging.pattern.console: "%clr(%d{HH:mm:ss.SSS}){blue} %clr(---){faint} %clr([%15.15t]){yellow} %clr(:){red} %clr(%m){faint}%n"
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop  # This drops and recreates tables on startup
