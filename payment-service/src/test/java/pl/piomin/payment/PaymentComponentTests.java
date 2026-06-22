@@ -66,7 +66,7 @@ public class PaymentComponentTests {
     @Test
     @org.junit.jupiter.api.Order(2)
     void eventReject() throws ExecutionException, InterruptedException, TimeoutException {
-        Order o = new Order(2L, 2L, 2L, 10, 1000);
+        Order o = new Order(2L, 2L, 2L, 10, 10000);
         SendResult<Long, Order> r = template.send("orders", o.getId(), o)
                 .get(1000, TimeUnit.MILLISECONDS);
         LOG.info("Sent: {}", r.getProducerRecord().value());
