@@ -21,7 +21,7 @@ executors:
       - image: 'cimg/openjdk:25.0.5'
 
 orbs:
-  maven: circleci/maven@2.2.0
+  maven: circleci/maven@2.4.0
   git-shallow-clone: guitarrapc/git-shallow-clone@2.8.0
 
 workflows:
